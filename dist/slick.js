@@ -136,6 +136,15 @@ angular.module('slick', []).directive('slick', [
             });
           });
         };
+        
+        scope.$on('reinit-slick', function() {
+          if (isInitialized) {
+            destroySlick();
+          }
+          initializeSlick();
+          return isInitialized = true;
+        });
+        
         if (scope.initOnload) {
           isInitialized = false;
           return scope.$watch('data', function (newVal, oldVal) {
@@ -148,7 +157,8 @@ angular.module('slick', []).directive('slick', [
             }
           });
         } else {
-          return initializeSlick();
+          initializeSlick();
+          return isInitialized = true;
         }
       }
     };
